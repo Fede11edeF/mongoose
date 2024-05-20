@@ -1,15 +1,16 @@
+import {config} from "dotenv"
 import mongoose from "mongoose";
-
 import {Post} from "./models/modello"
 
-const connectionString = "mongodb+srv://federicafl20:Federica@cluster0.1mpvvvh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+config()
+const connectionString = process.env.MONGODB_CONNECTION_STRING
 
 
 //inserire un post
 export const insertPost = async(titolo:string, sottotitolo:string, riassunto:string) => {
 
     try {
-        await mongoose.connect(connectionString, {dbName: "stop-code"})
+        await mongoose.connect(connectionString!, {dbName: "stop-code"})
 
         let post = new Post();
         post.titolo = titolo;
@@ -31,7 +32,7 @@ export const insertPost = async(titolo:string, sottotitolo:string, riassunto:str
 export const getPosts = async() => {
 
     try {
-        await mongoose.connect(connectionString, {dbName: "stop-code"})
+        await mongoose.connect(connectionString!, {dbName: "stop-code"})
         return await Post.find()
     }
     catch (err:any) {
@@ -48,7 +49,7 @@ export const getPosts = async() => {
 export const editPost = async(id:string, update:object) => {
 
     try {
-        await mongoose.connect(connectionString, {dbName: "stop-code"})
+        await mongoose.connect(connectionString!, {dbName: "stop-code"})
         return await Post.findByIdAndUpdate(id, update, {new: true})
     }
     catch (err:any) {
@@ -63,7 +64,7 @@ export const editPost = async(id:string, update:object) => {
 //cancellare un post
 export const deletePost = async (id: string) => {
     try {
-        await mongoose.connect(connectionString, { dbName: "stop-code" })
+        await mongoose.connect(connectionString!, { dbName: "stop-code" })
         return await Post.findByIdAndDelete(id)
 
     } 
